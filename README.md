@@ -70,5 +70,10 @@ data class InvoiceSpaceViewData(val none: String = "")
             layoutManager = LinearLayoutManager(this@SimpleActivity)
             adapter = jxAdapter
         }
-  jxAdapter.items = listOf(....) // Your Data
+  
+```
+
+### Assign Items Value (Auto Trigger notifyDatasetChaged)
+``` Kotlin
+jxAdapter.items = listOf(....) // Your Data
 ```
