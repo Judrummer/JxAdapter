@@ -16,22 +16,26 @@ dependencies {
 }
 ```
 
-## How to use
+## How to use (Multitype ViewHolder)
 
-### ViewData
+### Implement ViewData for each layout
 
 ``` Kotlin
+//item_invoice_header.xml
 data class InvoiceHeaderViewData(val invoiceNumber: String)
 
+//item_invoice_item.xml
 data class InvoiceItemViewData(val productName: String, val price: Double, val quantity: Int, val totalAmount: Double)
 
+//item_invoice_footer.xml
 data class InvoiceFooterViewData(val total: Double)
 
+//item_invoice_space.xml
 data class InvoiceSpaceViewData(val none: String = "")
 
 ```
 
-### Adapter
+### Implement Adapter
 
 ``` Kotlin
     val jxAdapter = JxAdapter(
