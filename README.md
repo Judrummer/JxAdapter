@@ -18,6 +18,8 @@ dependencies {
 
 ## How to use (Multitype ViewHolder)
 
+![alt tag](https://zippy.gfycat.com/ColorlessElderlyIndianskimmer.gif)
+
 ### Implement ViewData for each layout
 
 ``` Kotlin
