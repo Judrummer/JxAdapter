@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">JxRecyclerView</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_simple">Simple</string>
+    <string name="title_activity_rx_java">RxJava</string>
+</resources>
