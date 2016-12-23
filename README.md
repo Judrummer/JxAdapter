@@ -77,3 +77,38 @@ data class InvoiceSpaceViewData(val none: String = "")
 ``` Kotlin
 jxAdapter.items = listOf(....) // Your Data
 ```
+
+
+### Extension For RxJava 
+``` Kotlin
+ val itemsObservable:Observable<List<Any>> = ....
+ val subscriptions = CompositeSubscription()
+ 
+ rvExample.apply {
+            layoutManager = LinearLayoutManager(this@RxJavaActivity)
+            subscriptions.add(rx_jxAdapter(itemsObservable,
+                    JxViewHolder<InvoiceHeaderViewData>(R.layout.item_invoice_header) { view, position, item ->
+                        view.apply {
+                            tvItemInvoiceHeaderNumber.text = item.invoiceNumber
+                        }
+                    },
+                    JxViewHolder<InvoiceItemViewData>(R.layout.item_invoice_item) { view, position, item ->
+                        view.apply {
+                            tvItemInvoiceItemProductName.text = item.productName
+                            tvItemInvoiceItemQuantity.text = "x ${item.quantity}"
+                            tvItemInvoiceItemPrice.text = "$ ${item.price.format(2)}"
+                            tvItemInvoiceItemTotal.text = "$ ${item.totalAmount.format(2)}"
+                        }
+                    },
+                    JxViewHolder<InvoiceFooterViewData>(R.layout.item_invoice_footer) { view, position, item ->
+                        view.apply {
+                            tvItemInvoiceFooterTotal.text = "$ ${item.total.format(2)}"
+
+                        }
+                    },
+                    JxViewHolder<InvoiceSpaceViewData>(R.layout.item_invoice_space) { view, position, item ->
+
+                    })
+            )
+        }
+```
