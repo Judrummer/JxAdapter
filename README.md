@@ -1,3 +1,4 @@
+[ ![Kotlin](https://img.shields.io/badge/Kotlin-1.0.5-blue.svg)](http://kotlinlang.org)
 [![Build Status](https://travis-ci.org/Judrummer/JxAdapter.svg?branch=master)](https://travis-ci.org/judrummer/JxAdapter)
 
 # JxAdapter
