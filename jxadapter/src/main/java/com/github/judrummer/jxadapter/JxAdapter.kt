@@ -43,5 +43,5 @@ class JxAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     override fun getItemViewType(position: Int): Int
-            = jxHolderList.indexOfFirst { it.itemType.simpleName == items[position].javaClass.simpleName }
+            = jxHolderList.indexOfFirst { it.itemType == items[position].javaClass }
 }
