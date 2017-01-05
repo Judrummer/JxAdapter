@@ -40,14 +40,14 @@ class JxAdapterTest {
     @Test
     fun adapterTest() {
         val jxAdapter = JxAdapter(
-                JxViewHolder<HeaderViewData>(R.layout.item_test_jx_header) { view, position, item ->
-                    assert(view.tvTestItemHeader != null)
+                JxViewHolder<HeaderViewData>(R.layout.item_test_jx_header) { position, item ->
+                    assert(itemView.tvTestItemHeader != null)
                 },
-                JxViewHolder<ItemViewData>(R.layout.item_test_jx_item) { view, position, item ->
-                    assert(view.tvTestItemItem != null)
+                JxViewHolder<ItemViewData>(R.layout.item_test_jx_item) { position, item ->
+                    assert(itemView.tvTestItemItem != null)
                 },
-                JxViewHolder<SpaceViewData>(R.layout.item_test_jx_space) { view, position, item ->
-                    assert(view.llTestItemSpace != null)
+                JxViewHolder<SpaceViewData>(R.layout.item_test_jx_space) { position, item ->
+                    assert(itemView.llTestItemSpace != null)
                 })
 
         val items = listOf(
