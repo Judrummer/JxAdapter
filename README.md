@@ -46,26 +46,26 @@ data class InvoiceSpaceViewData(val none: String = "")
 
 ``` Kotlin
     val jxAdapter = JxAdapter(
-            JxViewHolder<InvoiceHeaderViewData>(R.layout.item_invoice_header) { view, position, item ->
-                view.apply {
+            JxViewHolder<InvoiceHeaderViewData>(R.layout.item_invoice_header) { position, item ->
+                itemView.apply {
                     tvItemInvoiceHeaderNumber.text = item.invoiceNumber
                 }
             },
-            JxViewHolder<InvoiceItemViewData>(R.layout.item_invoice_item) { view, position, item ->
-                view.apply {
+            JxViewHolder<InvoiceItemViewData>(R.layout.item_invoice_item) { position, item ->
+                itemView.apply {
                     tvItemInvoiceItemProductName.text = item.productName
                     tvItemInvoiceItemQuantity.text = "x ${item.quantity}"
                     tvItemInvoiceItemPrice.text = "$ ${item.price.format(2)}"
                     tvItemInvoiceItemTotal.text = "$ ${item.totalAmount.format(2)}"
                 }
             },
-            JxViewHolder<InvoiceFooterViewData>(R.layout.item_invoice_footer) { view, position, item ->
-                view.apply {
+            JxViewHolder<InvoiceFooterViewData>(R.layout.item_invoice_footer) { position, item ->
+                itemView.apply {
                     tvItemInvoiceFooterTotal.text = "$ ${item.total.format(2)}"
 
                 }
             },
-            JxViewHolder<InvoiceSpaceViewData>(R.layout.item_invoice_space) { view, position, item ->
+            JxViewHolder<InvoiceSpaceViewData>(R.layout.item_invoice_space) { position, item ->
 
             })
 
@@ -94,26 +94,26 @@ jxAdapter.items = listOf(....) // Your Data
  rvExample.apply {
             layoutManager = LinearLayoutManager(this@RxJavaActivity)
             subscriptions.add(rx_jxAdapter(itemsObservable,
-                    JxViewHolder<InvoiceHeaderViewData>(R.layout.item_invoice_header) { view, position, item ->
-                        view.apply {
+                    JxViewHolder<InvoiceHeaderViewData>(R.layout.item_invoice_header) { position, item ->
+                        itemView.apply {
                             tvItemInvoiceHeaderNumber.text = item.invoiceNumber
                         }
                     },
-                    JxViewHolder<InvoiceItemViewData>(R.layout.item_invoice_item) { view, position, item ->
-                        view.apply {
+                    JxViewHolder<InvoiceItemViewData>(R.layout.item_invoice_item) { position, item ->
+                        itemView.apply {
                             tvItemInvoiceItemProductName.text = item.productName
                             tvItemInvoiceItemQuantity.text = "x ${item.quantity}"
                             tvItemInvoiceItemPrice.text = "$ ${item.price.format(2)}"
                             tvItemInvoiceItemTotal.text = "$ ${item.totalAmount.format(2)}"
                         }
                     },
-                    JxViewHolder<InvoiceFooterViewData>(R.layout.item_invoice_footer) { view, position, item ->
-                        view.apply {
+                    JxViewHolder<InvoiceFooterViewData>(R.layout.item_invoice_footer) { position, item ->
+                        itemView.apply {
                             tvItemInvoiceFooterTotal.text = "$ ${item.total.format(2)}"
 
                         }
                     },
-                    JxViewHolder<InvoiceSpaceViewData>(R.layout.item_invoice_space) { view, position, item ->
+                    JxViewHolder<InvoiceSpaceViewData>(R.layout.item_invoice_space) { position, item ->
 
                     })
             )
