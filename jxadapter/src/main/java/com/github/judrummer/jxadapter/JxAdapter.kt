@@ -39,7 +39,8 @@ class JxAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
             = object : RecyclerView.ViewHolder(LayoutInflater.from(parent!!.context).inflate(jxHolderList[viewType].itemLayoutId, parent, false)) {}
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
-        (jxHolderList[getItemViewType(position)].bindHolder as (View, Int, Any) -> Unit).invoke(viewHolder.itemView, position, items[position])
+        val bindHolder = (jxHolderList[getItemViewType(position)].bindHolder as RecyclerView.ViewHolder.(Int, Any) -> Unit)
+        viewHolder.bindHolder(position, items[position])
     }
 
     override fun getItemViewType(position: Int): Int
