@@ -1,6 +1,6 @@
 apply plugin: androidApplicationPlugin
 apply plugin: kotlinPlugin
-apply plugin: kotlinExtensionPlugin
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 25
@@ -49,7 +49,6 @@ buildscript {
     }
 
     dependencies {
-        classpath kotlinAndroidExtension
         classpath kotlinGradlePlugin
     }
 }

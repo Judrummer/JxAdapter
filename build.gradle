@@ -5,9 +5,9 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath 'com.android.tools.build:gradle:2.2.3'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.5"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.6"
         classpath 'com.netflix.nebula:gradle-extra-configurations-plugin:3.0.3'
     }
 }
@@ -21,13 +21,12 @@ allprojects {
 
         supportVersion = '25.0.1'//''23.4.0'
         constraintLayoutVersion = '1.0.0-alpha4'
-        kotlinVersion = '1.0.5'//  1.0.3'
+        kotlinVersion = '1.0.6'//  1.0.3'
         supportTestVersion = '0.4.1'
         kxandroidVersion = '0.2.0'
 
         kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
         kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
-        kotlinAndroidExtension = "org.jetbrains.kotlin:kotlin-android-extensions:$kotlinVersion"
         kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 
         supportV4 = "com.android.support:support-v4:$supportVersion"
@@ -67,7 +66,6 @@ allprojects {
 configure(subprojects - project(':example')) {
     apply plugin: androidLibraryPlugin
     apply plugin: kotlinPlugin
-    apply plugin: kotlinExtensionPlugin
     apply plugin: androidMavenPlugin
 
     group = parent.ext.groupName

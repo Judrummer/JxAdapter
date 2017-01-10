@@ -3,6 +3,7 @@ package com.github.judrummer.example
 import java.text.DecimalFormat
 import java.util.*
 
+
 //View Data
 data class InvoiceHeaderViewData(val invoiceNumber: String)
 
@@ -11,7 +12,6 @@ data class InvoiceItemViewData(val productName: String, val price: Double, val q
 data class InvoiceFooterViewData(val total: Double)
 
 data class InvoiceSpaceViewData(val none: String = "")
-
 
 //Data Model
 data class InvoiceItem(val productName: String, val price: Double, val quantity: Int)

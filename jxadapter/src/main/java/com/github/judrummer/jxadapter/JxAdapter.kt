@@ -1,5 +1,6 @@
 package com.github.judrummer.jxadapter
 
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -11,25 +12,45 @@ import kotlin.properties.Delegates
  */
 
 
+open class JxDiffUtilCallback(val oldItems: List<Any>, val newItems: List<Any>) : DiffUtil.Callback() {
+
+    override fun getOldListSize(): Int = oldItems.size
+
+    override fun getNewListSize(): Int = newItems.size
+
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        val newItem = newItems[newItemPosition]
+        val oldItem = oldItems[oldItemPosition]
+        return oldItem == newItem
+    }
+
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        val newItem = newItems[newItemPosition]
+        val oldItem = oldItems[oldItemPosition]
+        return oldItem == newItem
+    }
+
+}
+
 class JxAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     var items: List<Any> by Delegates.observable(listOf()) { prop, old, new ->
-        if (useDiffUtils) {
-            //TODO: implement diffutils
-            notifyDataSetChanged()
+        val callback = diffUtilCallback
+        if (callback != null) {
+            DiffUtil.calculateDiff(callback.invoke(old, new)).dispatchUpdatesTo(this@JxAdapter)
         } else {
             notifyDataSetChanged()
         }
     }
     private var jxHolderList: List<JxViewHolder<*>>
-    var useDiffUtils: Boolean = false
+    var diffUtilCallback: ((List<Any>, List<Any>) -> JxDiffUtilCallback)? = null
 
-    constructor(jxHolderList: List<JxViewHolder<*>>, useDiffUtils: Boolean = false) : super() {
+    constructor(jxHolderList: List<JxViewHolder<*>>, diffUtilCallback: ((List<Any>, List<Any>) -> JxDiffUtilCallback)? = null) : super() {
         this.jxHolderList = jxHolderList
-        this.useDiffUtils = useDiffUtils
+        this.diffUtilCallback = diffUtilCallback
     }
 
-    constructor(vararg jxHolder: JxViewHolder<*>, useDiffUtils: Boolean = false) : this(jxHolder.toList(), useDiffUtils)
+    constructor(vararg jxHolder: JxViewHolder<*>, diffUtilCallback: ((List<Any>, List<Any>) -> JxDiffUtilCallback)? = null) : this(jxHolder.toList(), diffUtilCallback)
 
     override fun getItemCount(): Int = items.size
 

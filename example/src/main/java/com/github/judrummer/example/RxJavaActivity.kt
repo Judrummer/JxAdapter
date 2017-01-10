@@ -3,7 +3,6 @@ package com.github.judrummer.example
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import com.github.judrummer.jxadapter.JxAdapter
 import com.github.judrummer.jxadapter.JxViewHolder
 import com.github.judrummer.jxadapter_rxjava.rx_jxAdapter
 import com.taskworld.kxandroid.format
