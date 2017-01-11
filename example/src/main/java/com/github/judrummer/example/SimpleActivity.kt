@@ -41,6 +41,8 @@ class SimpleActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_simple)
         setSupportActionBar(toolbar)
+
+        //jxAdapter.jxDiffUtil = JxDiffUtil() // uncomment this if want to use DiffUtil
         rvExample.apply {
             layoutManager = LinearLayoutManager(this@SimpleActivity)
             adapter = jxAdapter
