@@ -67,7 +67,6 @@ configure(subprojects - project(':example')) {
     apply plugin: androidLibraryPlugin
     apply plugin: kotlinPlugin
     apply plugin: androidMavenPlugin
-    apply plugin: 'kotlin-android-extensions'
 
     group = parent.ext.groupName
 
