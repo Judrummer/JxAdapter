@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import com.github.judrummer.jxadapter.JxAdapter
+import com.github.judrummer.jxadapter.JxDiffUtil
 import com.github.judrummer.jxadapter.JxViewHolder
 import com.taskworld.kxandroid.format
 import kotlinx.android.synthetic.main.activity_simple.*
@@ -30,7 +31,6 @@ class SimpleActivity : AppCompatActivity() {
             JxViewHolder<InvoiceFooterViewData>(R.layout.item_invoice_footer) { position, item ->
                 itemView.apply {
                     tvItemInvoiceFooterTotal.text = "$ ${item.total.format(2)}"
-
                 }
             },
             JxViewHolder<InvoiceSpaceViewData>(R.layout.item_invoice_space) { position, item ->

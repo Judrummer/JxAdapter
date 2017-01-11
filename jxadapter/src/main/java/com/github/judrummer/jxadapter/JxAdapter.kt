@@ -11,46 +11,30 @@ import kotlin.properties.Delegates
  * Created by judrummer on 23/12/2559.
  */
 
-
-open class JxDiffUtilCallback(val oldItems: List<Any>, val newItems: List<Any>) : DiffUtil.Callback() {
-
-    override fun getOldListSize(): Int = oldItems.size
-
-    override fun getNewListSize(): Int = newItems.size
-
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        val newItem = newItems[newItemPosition]
-        val oldItem = oldItems[oldItemPosition]
-        return oldItem == newItem
-    }
-
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        val newItem = newItems[newItemPosition]
-        val oldItem = oldItems[oldItemPosition]
-        return oldItem == newItem
-    }
-
-}
-
 class JxAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     var items: List<Any> by Delegates.observable(listOf()) { prop, old, new ->
-        val callback = diffUtilCallback
-        if (callback != null) {
-            DiffUtil.calculateDiff(callback.invoke(old, new)).dispatchUpdatesTo(this@JxAdapter)
-        } else {
+        jxDiffUtil?.let {
+            DiffUtil.calculateDiff(it.callback(old, new)).dispatchUpdatesTo(this@JxAdapter)
+        } ?: {
             notifyDataSetChanged()
-        }
+        }()
     }
     private var jxHolderList: List<JxViewHolder<*>>
-    var diffUtilCallback: ((List<Any>, List<Any>) -> JxDiffUtilCallback)? = null
+    private var mapType: Map<Class<out Any>, Int>
+    var jxDiffUtil: JxDiffUtil? = null
 
-    constructor(jxHolderList: List<JxViewHolder<*>>, diffUtilCallback: ((List<Any>, List<Any>) -> JxDiffUtilCallback)? = null) : super() {
+    constructor(jxHolderList: List<JxViewHolder<*>>, jxDiffUtil: JxDiffUtil? = null) : super() {
         this.jxHolderList = jxHolderList
-        this.diffUtilCallback = diffUtilCallback
+        this.jxDiffUtil = jxDiffUtil
+        val tempMap = mutableMapOf<Class<out Any>, Int>()
+        jxHolderList.forEachIndexed { i, jxViewHolder ->
+            tempMap.put(jxViewHolder.itemType, i)
+        }
+        this.mapType = tempMap
     }
 
-    constructor(vararg jxHolder: JxViewHolder<*>, diffUtilCallback: ((List<Any>, List<Any>) -> JxDiffUtilCallback)? = null) : this(jxHolder.toList(), diffUtilCallback)
+    constructor(vararg jxHolder: JxViewHolder<*>, jxDiffUtil: JxDiffUtil? = null) : this(jxHolder.toList(), jxDiffUtil)
 
     override fun getItemCount(): Int = items.size
 
@@ -60,10 +44,14 @@ class JxAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
             = object : RecyclerView.ViewHolder(LayoutInflater.from(parent!!.context).inflate(jxHolderList[viewType].itemLayoutId, parent, false)) {}
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
-        val bindHolder = (jxHolderList[getItemViewType(position)].bindHolder as RecyclerView.ViewHolder.(Int, Any) -> Unit)
+        val itemType = getItemViewType(position)
+        if (itemType == -1) {
+            throw RuntimeException("Missing JxHolder<${items[position].javaClass.simpleName}>")
+        }
+        val bindHolder = (jxHolderList[itemType].bindHolder as RecyclerView.ViewHolder.(Int, Any) -> Unit)
         viewHolder.bindHolder(position, items[position])
     }
 
     override fun getItemViewType(position: Int): Int
-            = jxHolderList.indexOfFirst { it.itemType == items[position].javaClass }
+            = mapType[items[position].javaClass] ?: -1
 }
