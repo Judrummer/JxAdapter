@@ -84,7 +84,21 @@ data class InvoiceSpaceViewData(val none: String = "")
 ``` Kotlin
 jxAdapter.items = listOf(....) // Your Data
 ```
-
+### Use DiffUtil by setJxDiffUtil (Optional)
+``` Kotlin
+jxAdapter.jxDiffUtil = JxDiffUtil() 
+```
+JxDiffUtil is open class. you can extend to override function areItemsTheSame and areContentsTheSame.
+``` Kotlin
+open class JxDiffUtil {
+    open val areItemsTheSame: (Any, Any) -> Boolean = { oldItem, newItem ->
+        oldItem == newItem
+    }
+    open val areContentsTheSame: (Any, Any) -> Boolean = { oldItem, newItem ->
+        oldItem == newItem
+    }
+}
+```
 
 ### Extension For RxJava 
 ``` Kotlin
