@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/Judrummer/JxAdapter.svg?branch=master)](https://travis-ci.org/judrummer/JxAdapter)
 
 # JxAdapter
-The Easiest RecyclerAdapter for Android Kotlin
+The easiest RecyclerAdapter for Android Kotlin
 
 ## Installation
 
@@ -84,7 +84,7 @@ data class InvoiceSpaceViewData(val none: String = "")
 ``` Kotlin
 jxAdapter.items = listOf(....) // Your Data
 ```
-### Use DiffUtil by setJxDiffUtil (Optional)
+### Use DiffUtil by set JxDiffUtil (Optional)
 ``` Kotlin
 jxAdapter.jxDiffUtil = JxDiffUtil() 
 ```
