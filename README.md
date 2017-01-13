@@ -100,7 +100,7 @@ open class JxDiffUtil {
 }
 ```
 
-### Extension For RxJava (Inspire by rx_itemWith() from ReactiveAndroid)
+### Extension For RxJava (Inspired by rx_itemWith() from ReactiveAndroid)
 ``` Kotlin
  val itemsObservable:Observable<List<Any>> = ....
  val subscriptions = CompositeSubscription()
