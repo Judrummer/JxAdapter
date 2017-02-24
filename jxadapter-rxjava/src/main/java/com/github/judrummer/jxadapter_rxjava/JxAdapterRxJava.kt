@@ -20,6 +20,10 @@ fun RecyclerView.rx_jxAdapter(observable: Observable<List<Any>>, vararg jxHolder
 fun RecyclerView.rx_jxAdapter(observable: Observable<List<Any>>,
                               jxHolderList: List<JxViewHolder<*>>, jxDiffUtil: JxDiffUtil? = null): Subscription {
     val jxAdapter = JxAdapter(jxHolderList, jxDiffUtil)
+    return rx_jxAdapter(observable, jxAdapter)
+}
+
+fun RecyclerView.rx_jxAdapter(observable: Observable<List<Any>>, jxAdapter: JxAdapter): Subscription {
     adapter = jxAdapter
     return observable.subscribe {
         jxAdapter.items = it
