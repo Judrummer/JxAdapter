@@ -16,8 +16,8 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.judrummer.jxadapter:jxadapter:0.3.0' 
-    compile 'com.github.judrummer.jxadapter:jxadapter-rxjava:0.3.0' 
+    compile 'com.github.judrummer.jxadapter:jxadapter:0.3.1'
+    compile 'com.github.judrummer.jxadapter:jxadapter-rxjava:0.3.1'
 }
 ```
 
