@@ -11,9 +11,9 @@ import kotlin.properties.Delegates
  * Created by judrummer on 23/12/2559.
  */
 
-class JxAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
+open class JxAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    var items: List<Any> by Delegates.observable(listOf()) { prop, old, new ->
+    open var items: List<Any> by Delegates.observable(listOf()) { prop, old, new ->
         jxDiffUtil?.let {
             DiffUtil.calculateDiff(it.callback(old, new)).dispatchUpdatesTo(this@JxAdapter)
         } ?: {
