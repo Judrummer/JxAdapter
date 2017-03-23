@@ -16,8 +16,8 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.judrummer.jxadapter:jxadapter:0.3.2'
-    compile 'com.github.judrummer.jxadapter:jxadapter-rxjava:0.3.2'
+    compile 'com.github.judrummer.jxadapter:jxadapter:0.4.0'
+    compile 'com.github.judrummer.jxadapter:jxadapter-rxjava:0.4.0'
 }
 ```
 
@@ -25,20 +25,20 @@ dependencies {
 
 ![alt tag](https://zippy.gfycat.com/ColorlessElderlyIndianskimmer.gif)
 
-### Implement ViewData for each layout
+### Implement ViewData for each layout by using JxItem interface
 
 ``` Kotlin
 //item_invoice_header.xml
-data class InvoiceHeaderViewData(val invoiceNumber: String)
+data class InvoiceHeaderViewData(val invoiceNumber: String) : JxItem
 
 //item_invoice_item.xml
-data class InvoiceItemViewData(val productName: String, val price: Double, val quantity: Int, val totalAmount: Double)
+data class InvoiceItemViewData(val productName: String, val price: Double, val quantity: Int, val totalAmount: Double) : JxItem
 
 //item_invoice_footer.xml
-data class InvoiceFooterViewData(val total: Double)
+data class InvoiceFooterViewData(val total: Double) : JxItem
 
 //item_invoice_space.xml
-data class InvoiceSpaceViewData(val none: String = "")
+data class InvoiceSpaceViewData(val none: String = "") : JxItem
 
 ```
 
@@ -82,7 +82,7 @@ data class InvoiceSpaceViewData(val none: String = "")
 
 ### Assign Items Value (Auto Trigger notifyDatasetChaged)
 ``` Kotlin
-jxAdapter.items = listOf(....) // Your Data
+jxAdapter.items = listOf<JxItem>(....) // Your Data
 ```
 ### Use DiffUtil by set JxDiffUtil (Optional)
 ``` Kotlin
@@ -91,10 +91,10 @@ jxAdapter.jxDiffUtil = JxDiffUtil()
 JxDiffUtil is open class. you can extend to override function areItemsTheSame and areContentsTheSame.
 ``` Kotlin
 open class JxDiffUtil {
-    open val areItemsTheSame: (Any, Any) -> Boolean = { oldItem, newItem ->
+    open val areItemsTheSame: (JxItem, JxItem) -> Boolean = { oldItem, newItem ->
         oldItem == newItem
     }
-    open val areContentsTheSame: (Any, Any) -> Boolean = { oldItem, newItem ->
+    open val areContentsTheSame: (JxItem, JxItem) -> Boolean = { oldItem, newItem ->
         oldItem == newItem
     }
 }
@@ -102,7 +102,7 @@ open class JxDiffUtil {
 
 ### Extension For RxJava (Inspired by rx_itemWith() from ReactiveAndroid)
 ``` Kotlin
- val itemsObservable:Observable<List<Any>> = ....
+ val itemsObservable:Observable<List<JxItem>> = ....
  val subscriptions = CompositeSubscription()
  
  rvExample.apply {
