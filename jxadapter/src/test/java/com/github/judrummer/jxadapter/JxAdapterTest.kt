@@ -19,13 +19,13 @@ import org.robolectric.annotation.Config
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 
-data class HeaderViewData(val id: String)
+data class HeaderViewData(val id: String) : JxItem
 
-data class ItemViewData(val name: String)
+data class ItemViewData(val name: String) : JxItem
 
-data class SpaceViewData(val none: String = "")
+data class SpaceViewData(val none: String = "") : JxItem
 
-data class ErrorData(val error: String = "")
+data class ErrorData(val error: String = "") : JxItem
 
 @RunWith(RobolectricTestRunner::class)
 @Config(constants = BuildConfig::class, sdk = intArrayOf(21))
@@ -75,7 +75,7 @@ class JxAdapterTest {
                 jxAdapter.onCreateViewHolder(parentView, TYPE_ITEM),
                 jxAdapter.onCreateViewHolder(parentView, TYPE_SPACE))
 
-        items.forEachIndexed { i, item ->
+        items.forEachIndexed { i, _ ->
             val type = jxAdapter.getItemViewType(i)
             jxAdapter.onBindViewHolder(viewHolders[type], i)
         }
@@ -117,7 +117,7 @@ class JxAdapterTest {
                 jxAdapter.onCreateViewHolder(parentView, TYPE_ITEM),
                 jxAdapter.onCreateViewHolder(parentView, TYPE_SPACE))
 
-        items.forEachIndexed { i, item ->
+        items.forEachIndexed { i, _ ->
             val type = jxAdapter.getItemViewType(i)
             if (type == -1) {
                 var catchException = false

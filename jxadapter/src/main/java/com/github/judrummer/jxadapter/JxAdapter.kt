@@ -13,7 +13,7 @@ import kotlin.properties.Delegates
 
 open class JxAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    open var items: List<Any> by Delegates.observable(listOf()) { prop, old, new ->
+    open var items: List<JxItem> by Delegates.observable(listOf()) { prop, old, new ->
         jxDiffUtil?.let {
             DiffUtil.calculateDiff(it.callback(old, new)).dispatchUpdatesTo(this@JxAdapter)
         } ?: {
@@ -21,13 +21,13 @@ open class JxAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }()
     }
     private var jxHolderList: List<JxViewHolder<*>>
-    private var mapType: Map<Class<out Any>, Int>
+    private var mapType: Map<Class<out JxItem>, Int>
     var jxDiffUtil: JxDiffUtil? = null
 
     constructor(jxHolderList: List<JxViewHolder<*>>, jxDiffUtil: JxDiffUtil? = null) : super() {
         this.jxHolderList = jxHolderList
         this.jxDiffUtil = jxDiffUtil
-        val tempMap = mutableMapOf<Class<out Any>, Int>()
+        val tempMap = mutableMapOf<Class<out JxItem>, Int>()
         jxHolderList.forEachIndexed { i, jxViewHolder ->
             tempMap.put(jxViewHolder.itemType, i)
         }
@@ -48,7 +48,7 @@ open class JxAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (itemType == -1) {
             throw RuntimeException("Missing JxHolder<${items[position].javaClass.simpleName}>")
         }
-        val bindHolder = (jxHolderList[itemType].bindHolder as RecyclerView.ViewHolder.(Int, Any) -> Unit)
+        val bindHolder = (jxHolderList[itemType].bindHolder as RecyclerView.ViewHolder.(Int, JxItem) -> Unit)
         viewHolder.bindHolder(position, items[position])
     }
 
