@@ -3,6 +3,7 @@ package com.github.judrummer.example
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import com.github.judrummer.jxadapter.JxItem
 import com.github.judrummer.jxadapter.JxViewHolder
 import com.github.judrummer.jxadapter_rxjava.rx_jxAdapter
 import com.taskworld.kxandroid.format
@@ -15,7 +16,7 @@ import rx.subscriptions.CompositeSubscription
 
 class RxJavaActivity : AppCompatActivity() {
 
-    val itemsObservable = PublishSubject.create<List<Any>>()
+    val itemsObservable = PublishSubject.create<List<JxItem>>()
     val subscriptions = CompositeSubscription()
 
     override fun onCreate(savedInstanceState: Bundle?) {

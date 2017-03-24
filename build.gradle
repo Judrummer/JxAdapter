@@ -5,9 +5,9 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.android.tools.build:gradle:2.3.0'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.6"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.1"
         classpath 'com.netflix.nebula:gradle-extra-configurations-plugin:3.0.3'
     }
 }
@@ -19,41 +19,11 @@ allprojects {
 
         groupName = "com.github.judrummer.jxadapter"
 
-        supportVersion = '25.0.1'//''23.4.0'
-        constraintLayoutVersion = '1.0.0-alpha4'
-        kotlinVersion = '1.0.6'//  1.0.3'
+        supportVersion = '25.1.1'
+        kotlinVersion = '1.1.1'
         supportTestVersion = '0.4.1'
         kxandroidVersion = '0.2.0'
 
-        kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-        kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
-        kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-
-        supportV4 = "com.android.support:support-v4:$supportVersion"
-        supportV7 = "com.android.support:appcompat-v7:$supportVersion"
-        supportDesign = "com.android.support:design:$supportVersion"
-        supportCardView = "com.android.support:cardview-v7:$supportVersion"
-        supportRecyclerView = "com.android.support:recyclerview-v7:$supportVersion"
-        supportAnnotation = "com.android.support:support-annotations:$supportVersion"
-        supportPercentLayout = "com.android.support:percent:$supportVersion"
-
-        kxAndroidFormatter = "com.github.taskworld.kxandroid:kxandroid-formatter:$kxandroidVersion"
-
-        gson = 'com.google.code.gson:gson:2.4'
-        glide = "com.github.bumptech.glide:glide:3.6.1"
-
-        testJUnit = "junit:junit:4.12"
-        mockitoKotlin = "com.nhaarman:mockito-kotlin:0.3.1"
-        hamcrest = "org.hamcrest:hamcrest-all:1.3"
-        spek = "org.jetbrains.spek:spek:1.0.25"
-        robolectric = "org.robolectric:robolectric:3.1.4"
-
-        androidApplicationPlugin = 'com.android.application'
-        androidLibraryPlugin = 'com.android.library'
-        kotlinPlugin = 'kotlin-android'
-        androidMavenPlugin = 'com.github.dcendents.android-maven'
-        kotlinExtensionPlugin = 'kotlin-android-extensions'
-        dexCountPlugin = 'com.getkeepsafe.dexcount'
     }
 
     repositories {
@@ -64,15 +34,15 @@ allprojects {
 
 
 configure(subprojects - project(':example')) {
-    apply plugin: androidLibraryPlugin
-    apply plugin: kotlinPlugin
-    apply plugin: androidMavenPlugin
+    apply plugin: 'com.android.library'
+    apply plugin: 'kotlin-android'
+    apply plugin: 'com.github.dcendents.android-maven'
 
     group = parent.ext.groupName
 
     android {
         compileSdkVersion 25
-        buildToolsVersion "25.0.1"
+        buildToolsVersion "25.0.2"
 
         defaultConfig {
             minSdkVersion minSdk
@@ -89,15 +59,15 @@ configure(subprojects - project(':example')) {
         }
     }
     dependencies {
-        compile(kotlinStdLib,
-                supportV4,
-                supportV7,
-                supportRecyclerView)
-        testCompile(testJUnit,
-                robolectric,
-                supportV7,
-                kotlinStdLib,
-                hamcrest
+        compile("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion",
+                "com.android.support:support-v4:$supportVersion",
+                "com.android.support:appcompat-v7:$supportVersion",
+                "com.android.support:recyclerview-v7:$supportVersion")
+        testCompile("junit:junit:4.12",
+                "org.robolectric:robolectric:3.1.4",
+                "com.android.support:appcompat-v7:$supportVersion",
+                "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion",
+                "org.hamcrest:hamcrest-all:1.3"
         )
     }
 }

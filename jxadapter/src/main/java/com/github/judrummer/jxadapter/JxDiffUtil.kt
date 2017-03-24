@@ -7,14 +7,14 @@ import android.support.v7.util.DiffUtil
  */
 
 open class JxDiffUtil {
-    open val areItemsTheSame: (Any, Any) -> Boolean = { oldItem, newItem ->
+    open val areItemsTheSame: (JxItem, JxItem) -> Boolean = { oldItem, newItem ->
         oldItem == newItem
     }
-    open val areContentsTheSame: (Any, Any) -> Boolean = { oldItem, newItem ->
+    open val areContentsTheSame: (JxItem, JxItem) -> Boolean = { oldItem, newItem ->
         oldItem == newItem
     }
 
-    fun callback(oldItems: List<Any>, newItems: List<Any>) = object : DiffUtil.Callback() {
+    fun callback(oldItems: List<JxItem>, newItems: List<JxItem>) = object : DiffUtil.Callback() {
 
         override fun getOldListSize(): Int = oldItems.size
 
