@@ -1,6 +1,6 @@
 
 [![](https://jitpack.io/v/judrummer/JxAdapter.svg)](https://jitpack.io/#judrummer/JxAdapter)
-[ ![Kotlin](https://img.shields.io/badge/Kotlin-1.1.1-blue.svg)](http://kotlinlang.org)
+[ ![Kotlin](https://img.shields.io/badge/Kotlin-1.1.2-blue.svg)](http://kotlinlang.org)
 [![Build Status](https://travis-ci.org/Judrummer/JxAdapter.svg?branch=master)](https://travis-ci.org/judrummer/JxAdapter)
 
 # JxAdapter
@@ -16,8 +16,8 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.judrummer.jxadapter:jxadapter:0.4.0'
-    compile 'com.github.judrummer.jxadapter:jxadapter-rxjava:0.4.0'
+    compile 'com.github.judrummer.jxadapter:jxadapter:0.5.0'
+    compile 'com.github.judrummer.jxadapter:jxadapter-rxjava:0.5.0'
 }
 ```
 
@@ -103,11 +103,11 @@ open class JxDiffUtil {
 ### Extension For RxJava (Inspired by rx_itemWith() from ReactiveAndroid)
 ``` Kotlin
  val itemsObservable:Observable<List<JxItem>> = ....
- val subscriptions = CompositeSubscription()
+ val disposables = CompositeDisposable()
  
  rvExample.apply {
             layoutManager = LinearLayoutManager(this@RxJavaActivity)
-            subscriptions.add(rx_jxAdapter(itemsObservable,
+            disposables.add(rx_jxAdapter(itemsObservable,
                     JxViewHolder<InvoiceHeaderViewData>(R.layout.item_invoice_header) { position, item ->
                         itemView.apply {
                             tvItemInvoiceHeaderNumber.text = item.invoiceNumber

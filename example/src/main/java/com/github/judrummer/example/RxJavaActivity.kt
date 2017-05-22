@@ -7,17 +7,17 @@ import com.github.judrummer.jxadapter.JxItem
 import com.github.judrummer.jxadapter.JxViewHolder
 import com.github.judrummer.jxadapter_rxjava.rx_jxAdapter
 import com.taskworld.kxandroid.format
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_simple.*
 import kotlinx.android.synthetic.main.item_invoice_footer.view.*
 import kotlinx.android.synthetic.main.item_invoice_header.view.*
 import kotlinx.android.synthetic.main.item_invoice_item.view.*
-import rx.subjects.PublishSubject
-import rx.subscriptions.CompositeSubscription
 
 class RxJavaActivity : AppCompatActivity() {
 
     val itemsObservable = PublishSubject.create<List<JxItem>>()
-    val subscriptions = CompositeSubscription()
+    val disposables = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +25,7 @@ class RxJavaActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         rvExample.apply {
             layoutManager = LinearLayoutManager(this@RxJavaActivity)
-            subscriptions.add(rx_jxAdapter(itemsObservable,
+            disposables.add(rx_jxAdapter(itemsObservable,
                     JxViewHolder<InvoiceHeaderViewData>(R.layout.item_invoice_header) { position, item ->
                         itemView.apply {
                             tvItemInvoiceHeaderNumber.text = item.invoiceNumber
@@ -57,6 +57,11 @@ class RxJavaActivity : AppCompatActivity() {
         }
 
         fetchData()
+    }
+
+    override fun onDestroy() {
+        disposables.clear()
+        super.onDestroy()
     }
 
     fun fetchData() {
