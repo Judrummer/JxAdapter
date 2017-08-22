@@ -14,7 +14,7 @@ class JxItemType<T : JxItem>(val itemType: Class<T>, val viewHolderProvider: (Vi
 
 class JxItemTypeBuilder {
     val mapItemType = mutableMapOf<Class<out JxItem>, JxItemType<out JxItem>>()
-    inline fun <reified T : JxItem, reified H : JxViewHolder<T>> itemType(noinline viewHolderProvider: (ViewGroup) -> H) {
+    inline fun <reified T : JxItem, reified H : JxViewHolder<T>> viewHolder(noinline viewHolderProvider: (ViewGroup) -> H) {
         mapItemType.put(T::class.java, JxItemType(T::class.java, viewHolderProvider))
     }
 }

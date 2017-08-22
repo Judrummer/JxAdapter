@@ -45,10 +45,10 @@ class InvoiceSpaceViewHolder(parent: ViewGroup) : JxViewHolder<InvoiceSpaceViewD
 class SimpleActivity : AppCompatActivity() {
 
     private val jxAdapter = JxAdapter {
-        itemType(::InvoiceHeaderViewHolder)
-        itemType(::InvoiceItemViewHolder)
-        itemType(::InvoiceFooterViewHolder)
-        itemType(::InvoiceSpaceViewHolder)
+        viewHolder(::InvoiceHeaderViewHolder)
+        viewHolder(::InvoiceItemViewHolder)
+        viewHolder(::InvoiceFooterViewHolder)
+        viewHolder(::InvoiceSpaceViewHolder)
     }
 
 //    val jxAdapter = JxAdapter(
