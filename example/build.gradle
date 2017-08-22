@@ -21,6 +21,10 @@ android {
     }
 }
 
+androidExtensions {
+    experimental = true
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
