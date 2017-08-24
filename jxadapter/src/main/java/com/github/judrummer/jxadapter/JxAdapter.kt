@@ -13,32 +13,27 @@ interface JxItem
 class JxItemType<T : JxItem>(val itemType: Class<T>, val viewHolderProvider: (ViewGroup) -> JxViewHolder<T>)
 
 class JxItemTypeBuilder {
-    val mapItemType = mutableMapOf<Class<out JxItem>, JxItemType<out JxItem>>()
+    val itemTypeList = mutableListOf<JxItemType<out JxItem>>()
+
     inline fun <reified T : JxItem, reified H : JxViewHolder<T>> viewHolder(noinline viewHolderProvider: (ViewGroup) -> H) {
-        mapItemType.put(T::class.java, JxItemType(T::class.java, viewHolderProvider))
+        itemTypeList.add(JxItemType(T::class.java, viewHolderProvider))
     }
 }
 
 open class JxAdapter(builder: JxItemTypeBuilder.() -> Unit) : RecyclerView.Adapter<JxViewHolder<JxItem>>() {
 
-    private val mapItemType = JxItemTypeBuilder().apply(builder).mapItemType
+    private val itemTypeList = JxItemTypeBuilder().apply(builder).itemTypeList
 
     private val mapToType: Map<Class<out JxItem>, Int>
 
-    private val mapToClass: Map<Int, Class<out JxItem>>
     var jxDiffUtil: JxDiffUtil? = null
 
     init {
         val tempMapToType = mutableMapOf<Class<out JxItem>, Int>()
-        val tempMapToClass = mutableMapOf<Int, Class<out JxItem>>()
-        mapItemType.let {
-            it.keys.forEachIndexed { index, clazz ->
-                tempMapToClass.put(index, clazz)
-                tempMapToType.put(clazz, index)
-            }
+        itemTypeList.forEachIndexed { i, itemType ->
+            tempMapToType.put(itemType.itemType, i)
         }
         mapToType = tempMapToType
-        mapToClass = tempMapToClass
     }
 
     open var items: List<JxItem> by Delegates.observable(listOf()) { prop, old, new ->
@@ -54,10 +49,10 @@ open class JxAdapter(builder: JxItemTypeBuilder.() -> Unit) : RecyclerView.Adapt
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JxViewHolder<JxItem>
-            = mapItemType[mapToClass[viewType]]?.viewHolderProvider?.invoke(parent) as JxViewHolder<JxItem> ?: throw IllegalStateException("No Type")
+            = itemTypeList[viewType].viewHolderProvider.invoke(parent) as JxViewHolder<JxItem>
 
     override fun getItemViewType(position: Int): Int
-            = mapToType[items[position].javaClass] ?: -1
+            = mapToType.getOrElse(items[position].javaClass) { throw IllegalStateException("Missing JxHolder<${items[position].javaClass.simpleName}>") }
 
     override fun getItemCount(): Int = items.size
 }

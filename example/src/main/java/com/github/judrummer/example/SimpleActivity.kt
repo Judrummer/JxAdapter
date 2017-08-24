@@ -7,27 +7,43 @@ import android.view.ViewGroup
 import com.github.judrummer.jxadapter.JxAdapter
 import com.github.judrummer.jxadapter.JxViewHolder
 import com.taskworld.kxandroid.format
+import com.taskworld.kxandroid.toast
 import kotlinx.android.synthetic.main.activity_simple.*
 import kotlinx.android.synthetic.main.item_invoice_footer.*
 import kotlinx.android.synthetic.main.item_invoice_header.*
 import kotlinx.android.synthetic.main.item_invoice_item.*
 
+typealias ItemClick = (item: InvoiceItemViewData) -> Unit
 
 class InvoiceHeaderViewHolder(parent: ViewGroup) : JxViewHolder<InvoiceHeaderViewData>(parent, R.layout.item_invoice_header) {
 
     override fun bind(item: InvoiceHeaderViewData) {
+        adapterPosition
         tvItemInvoiceHeaderNumber.text = item.invoiceNumber
     }
 
 }
 
-class InvoiceItemViewHolder(parent: ViewGroup) : JxViewHolder<InvoiceItemViewData>(parent, R.layout.item_invoice_item) {
+class InvoiceItemViewHolder(parent: ViewGroup, initializer: (InvoiceItemViewHolder.() -> Unit)? = null) : JxViewHolder<InvoiceItemViewData>(parent, R.layout.item_invoice_item) {
+
+    init {
+        initializer?.invoke(this)
+    }
+
+    var onNameClick: (ItemClick)? = null
+    var onTotalClick: (ItemClick)? = null
 
     override fun bind(item: InvoiceItemViewData) {
         tvItemInvoiceItemProductName.text = item.productName
+        tvItemInvoiceItemProductName.setOnClickListener {
+            onNameClick?.invoke(item)
+        }
         tvItemInvoiceItemQuantity.text = "x ${item.quantity}"
         tvItemInvoiceItemPrice.text = "$ ${item.price.format(2)}"
         tvItemInvoiceItemTotal.text = "$ ${item.totalAmount.format(2)}"
+        tvItemInvoiceItemTotal.setOnClickListener {
+            onTotalClick?.invoke(item)
+        }
     }
 
 }
@@ -46,33 +62,21 @@ class SimpleActivity : AppCompatActivity() {
 
     private val jxAdapter = JxAdapter {
         viewHolder(::InvoiceHeaderViewHolder)
-        viewHolder(::InvoiceItemViewHolder)
+        viewHolder {
+            InvoiceItemViewHolder(it) {
+                onNameClick = this@SimpleActivity::onNameClick
+                onTotalClick = { item ->
+                    toast("onTotalClick $item")
+                }
+            }
+        }
         viewHolder(::InvoiceFooterViewHolder)
         viewHolder(::InvoiceSpaceViewHolder)
     }
 
-//    val jxAdapter = JxAdapter(
-//            JxViewHolder<InvoiceHeaderViewData>(R.layout.item_invoice_header) { position, item ->
-//                //                itemView.apply {
-////                    tvItemInvoiceHeaderNumber.text = item.invoiceNumber
-////                }
-//            },
-//            JxViewHolder<InvoiceItemViewData>(R.layout.item_invoice_item) { position, item ->
-//                //                itemView.apply {
-////                    tvItemInvoiceItemProductName.text = item.productName
-////                    tvItemInvoiceItemQuantity.text = "x ${item.quantity}"
-////                    tvItemInvoiceItemPrice.text = "$ ${item.price.format(2)}"
-////                    tvItemInvoiceItemTotal.text = "$ ${item.totalAmount.format(2)}"
-////                }
-//            },
-//            JxViewHolder<InvoiceFooterViewData>(R.layout.item_invoice_footer) { position, item ->
-//                //                itemView.apply {
-////                    tvItemInvoiceFooterTotal.text = "$ ${item.total.format(2)}"
-////                }
-//            },
-//            JxViewHolder<InvoiceSpaceViewData>(R.layout.item_invoice_space) { position, item ->
-//
-//            })
+    private fun onNameClick(item: InvoiceItemViewData) {
+        toast("onNameClick $item")
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

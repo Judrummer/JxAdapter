@@ -1,5 +1,0 @@
-
-dependencies {
-    compile "io.reactivex.rxjava2:rxjava:2.1.0"
-    compile project(path: ':jxadapter')
-}

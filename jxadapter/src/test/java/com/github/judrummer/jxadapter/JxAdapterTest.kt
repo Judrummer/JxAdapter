@@ -1,23 +1,14 @@
 package com.github.judrummer.jxadapter
 
-import android.app.Activity
 import android.content.Context
-import android.support.v4.app.FragmentActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.util.Log
-import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import kotlinx.android.synthetic.main.item_test_jx_header.view.*
-import kotlinx.android.synthetic.main.item_test_jx_item.view.*
-import kotlinx.android.synthetic.main.item_test_jx_space.view.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.annotation.Config
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.annotation.Config
 
 data class HeaderViewData(val id: String) : JxItem
 
@@ -26,6 +17,24 @@ data class ItemViewData(val name: String) : JxItem
 data class SpaceViewData(val none: String = "") : JxItem
 
 data class ErrorData(val error: String = "") : JxItem
+
+class HeaderViewHolder(parent: ViewGroup) : JxViewHolder<HeaderViewData>(parent, R.layout.item_test_jx_header) {
+    override fun bind(item: HeaderViewData) {
+
+    }
+}
+
+class ItemViewHolder(parent: ViewGroup) : JxViewHolder<ItemViewData>(parent, R.layout.item_test_jx_item) {
+    override fun bind(item: ItemViewData) {
+
+    }
+}
+
+class SpaceViewHolder(parent: ViewGroup) : JxViewHolder<SpaceViewData>(parent, R.layout.item_test_jx_item) {
+    override fun bind(item: SpaceViewData) {
+
+    }
+}
 
 @RunWith(RobolectricTestRunner::class)
 @Config(constants = BuildConfig::class, sdk = intArrayOf(21))
@@ -45,16 +54,11 @@ class JxAdapterTest {
 
     @Test
     fun adapterTest() {
-        val jxAdapter = JxAdapter(
-                JxViewHolder<HeaderViewData>(R.layout.item_test_jx_header) { position, item ->
-                    assert(itemView.tvTestItemHeader != null)
-                },
-                JxViewHolder<ItemViewData>(R.layout.item_test_jx_item) { position, item ->
-                    assert(itemView.tvTestItemItem != null)
-                },
-                JxViewHolder<SpaceViewData>(R.layout.item_test_jx_space) { position, item ->
-                    assert(itemView.llTestItemSpace != null)
-                })
+        val jxAdapter = JxAdapter {
+            viewHolder(::HeaderViewHolder)
+            viewHolder(::ItemViewHolder)
+            viewHolder(::SpaceViewHolder)
+        }
 
         val items = listOf(
                 HeaderViewData("INV001"),
@@ -91,16 +95,11 @@ class JxAdapterTest {
 
     @Test
     fun adapterErrorTest() {
-        val jxAdapter = JxAdapter(
-                JxViewHolder<HeaderViewData>(R.layout.item_test_jx_header) { position, item ->
-                    assert(itemView.tvTestItemHeader != null)
-                },
-                JxViewHolder<ItemViewData>(R.layout.item_test_jx_item) { position, item ->
-                    assert(itemView.tvTestItemItem != null)
-                },
-                JxViewHolder<SpaceViewData>(R.layout.item_test_jx_space) { position, item ->
-                    assert(itemView.llTestItemSpace != null)
-                })
+        val jxAdapter = JxAdapter {
+            viewHolder(::HeaderViewHolder)
+            viewHolder(::ItemViewHolder)
+            viewHolder(::SpaceViewHolder)
+        }
 
         val items = listOf(
                 HeaderViewData("INV001"),
@@ -111,32 +110,15 @@ class JxAdapterTest {
 
         jxAdapter.items = items
 
-        val parentView = LinearLayout(context)
-        val viewHolders = listOf(
-                jxAdapter.onCreateViewHolder(parentView, TYPE_HEADER),
-                jxAdapter.onCreateViewHolder(parentView, TYPE_ITEM),
-                jxAdapter.onCreateViewHolder(parentView, TYPE_SPACE))
-
-        items.forEachIndexed { i, _ ->
-            val type = jxAdapter.getItemViewType(i)
-            if (type == -1) {
-                var catchException = false
-                try {
-                    jxAdapter.onBindViewHolder(viewHolders[type], i)
-                } catch (ex: Exception) {
-                    catchException = true
-                } finally {
-                    assert(catchException)
-                }
-
-            } else {
-                jxAdapter.onBindViewHolder(viewHolders[type], i)
-            }
+        var isCatch = false
+        try {
+            jxAdapter.getItemViewType(3)
+        } catch (ex: IllegalStateException) {
+            isCatch = true
+        } finally {
+            assert(isCatch)
         }
-        assert(jxAdapter.getItemViewType(0) == TYPE_HEADER)
-        assert(jxAdapter.getItemViewType(1) == TYPE_ITEM)
-        assert(jxAdapter.getItemViewType(2) == TYPE_ITEM)
-        assert(jxAdapter.getItemViewType(3) == -1)
+
     }
 
 }

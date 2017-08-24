@@ -39,7 +39,6 @@ dependencies {
     )
 
     compile project(':jxadapter')
-    compile project(':jxadapter-rxjava')
 
     testCompile "junit:junit:4.12"
 }
