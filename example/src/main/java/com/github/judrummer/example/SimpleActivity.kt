@@ -18,7 +18,6 @@ typealias ItemClick = (item: InvoiceItemViewData) -> Unit
 class InvoiceHeaderViewHolder(parent: ViewGroup) : JxViewHolder<InvoiceHeaderViewData>(parent, R.layout.item_invoice_header) {
 
     override fun bind(item: InvoiceHeaderViewData) {
-        adapterPosition
         tvItemInvoiceHeaderNumber.text = item.invoiceNumber
     }
 
