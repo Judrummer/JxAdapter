@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.judrummer.jxadapter:jxadapter:1.0.0-beta'
+    compile 'com.github.judrummer.jxadapter:jxadapter:1.0.0'
 }
 ```
 
@@ -136,3 +136,6 @@ open class JxDiffUtil {
     }
 }
 ```
+
+### Licenses
+JxAdapter is released under the [MIT](http://opensource.org/licenses/MIT) license.
