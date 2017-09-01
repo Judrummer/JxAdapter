@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.judrummer.jxadapter:jxadapter:1.0.0'
+    compile 'com.github.judrummer.jxadapter:jxadapter:1.0.0-beta'
 }
 ```
 
