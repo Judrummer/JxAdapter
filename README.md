@@ -18,6 +18,10 @@ repositories {
 dependencies {
     compile 'com.github.judrummer.jxadapter:jxadapter:1.0.0'
 }
+
+androidExtensions {
+    experimental = true
+}
 ```
 
 ## How to use (Multitype ViewHolder)
