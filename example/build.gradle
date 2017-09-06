@@ -21,6 +21,10 @@ android {
     }
 }
 
+androidExtensions {
+    experimental = true
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -35,7 +39,6 @@ dependencies {
     )
 
     compile project(':jxadapter')
-    compile project(':jxadapter-rxjava')
 
     testCompile "junit:junit:4.12"
 }

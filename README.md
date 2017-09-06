@@ -1,6 +1,6 @@
 
 [![](https://jitpack.io/v/judrummer/JxAdapter.svg)](https://jitpack.io/#judrummer/JxAdapter)
-[ ![Kotlin](https://img.shields.io/badge/Kotlin-1.1.2-blue.svg)](http://kotlinlang.org)
+[ ![Kotlin](https://img.shields.io/badge/Kotlin-1.1.4-blue.svg)](http://kotlinlang.org)
 [![Build Status](https://travis-ci.org/Judrummer/JxAdapter.svg?branch=master)](https://travis-ci.org/judrummer/JxAdapter)
 
 # JxAdapter
@@ -16,8 +16,11 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.judrummer.jxadapter:jxadapter:0.5.0'
-    compile 'com.github.judrummer.jxadapter:jxadapter-rxjava:0.5.0'
+    compile 'com.github.judrummer.jxadapter:jxadapter:1.0.0'
+}
+
+androidExtensions {
+    experimental = true
 }
 ```
 
@@ -42,32 +45,70 @@ data class InvoiceSpaceViewData(val none: String = "") : JxItem
 
 ```
 
+### Implement ViewHolder (use android extension experimental)
+
+``` Kotlin
+typealias ItemClick = (item: InvoiceItemViewData) -> Unit
+
+class InvoiceHeaderViewHolder(parent: ViewGroup) : JxViewHolder<InvoiceHeaderViewData>(parent, R.layout.item_invoice_header) {
+
+    override fun bind(item: InvoiceHeaderViewData) {
+        tvItemInvoiceHeaderNumber.text = item.invoiceNumber
+    }
+
+}
+
+class InvoiceItemViewHolder(parent: ViewGroup, initializer: (InvoiceItemViewHolder.() -> Unit)? = null) : JxViewHolder<InvoiceItemViewData>(parent, R.layout.item_invoice_item) {
+
+    init {
+        initializer?.invoke(this)
+    }
+
+    var onNameClick: (ItemClick)? = null
+    var onTotalClick: (ItemClick)? = null
+
+    override fun bind(item: InvoiceItemViewData) {
+        tvItemInvoiceItemProductName.text = item.productName
+        tvItemInvoiceItemProductName.setOnClickListener {
+            onNameClick?.invoke(item)
+        }
+        tvItemInvoiceItemQuantity.text = "x ${item.quantity}"
+        tvItemInvoiceItemPrice.text = "$ ${item.price.format(2)}"
+        tvItemInvoiceItemTotal.text = "$ ${item.totalAmount.format(2)}"
+        tvItemInvoiceItemTotal.setOnClickListener {
+            onTotalClick?.invoke(item)
+        }
+    }
+
+}
+
+class InvoiceFooterViewHolder(parent: ViewGroup) : JxViewHolder<InvoiceFooterViewData>(parent, R.layout.item_invoice_footer) {
+    override fun bind(item: InvoiceFooterViewData) {
+        tvItemInvoiceFooterTotal.text = "$ ${item.total.format(2)}"
+    }
+}
+
+class InvoiceSpaceViewHolder(parent: ViewGroup) : JxViewHolder<InvoiceSpaceViewData>(parent, R.layout.item_invoice_space) {
+    override fun bind(item: InvoiceSpaceViewData) {}
+}
+```
+
 ### Implement Adapter
 
 ``` Kotlin
-    val jxAdapter = JxAdapter(
-            JxViewHolder<InvoiceHeaderViewData>(R.layout.item_invoice_header) { position, item ->
-                itemView.apply {
-                    tvItemInvoiceHeaderNumber.text = item.invoiceNumber
-                }
-            },
-            JxViewHolder<InvoiceItemViewData>(R.layout.item_invoice_item) { position, item ->
-                itemView.apply {
-                    tvItemInvoiceItemProductName.text = item.productName
-                    tvItemInvoiceItemQuantity.text = "x ${item.quantity}"
-                    tvItemInvoiceItemPrice.text = "$ ${item.price.format(2)}"
-                    tvItemInvoiceItemTotal.text = "$ ${item.totalAmount.format(2)}"
-                }
-            },
-            JxViewHolder<InvoiceFooterViewData>(R.layout.item_invoice_footer) { position, item ->
-                itemView.apply {
-                    tvItemInvoiceFooterTotal.text = "$ ${item.total.format(2)}"
-
-                }
-            },
-            JxViewHolder<InvoiceSpaceViewData>(R.layout.item_invoice_space) { position, item ->
-
-            })
+   val jxAdapter = JxAdapter {
+          viewHolder(::InvoiceHeaderViewHolder)
+          viewHolder {
+              InvoiceItemViewHolder(it) {
+                  onNameClick = this@SimpleActivity::onNameClick
+                  onTotalClick = { item ->
+                      toast("onTotalClick $item")
+                  }
+              }
+          }
+          viewHolder(::InvoiceFooterViewHolder)
+          viewHolder(::InvoiceSpaceViewHolder)
+      }
 
 ```
 
@@ -100,36 +141,5 @@ open class JxDiffUtil {
 }
 ```
 
-### Extension For RxJava (Inspired by rx_itemWith() from ReactiveAndroid)
-``` Kotlin
- val itemsObservable:Observable<List<JxItem>> = ....
- val disposables = CompositeDisposable()
- 
- rvExample.apply {
-            layoutManager = LinearLayoutManager(this@RxJavaActivity)
-            disposables.add(rx_jxAdapter(itemsObservable,
-                    JxViewHolder<InvoiceHeaderViewData>(R.layout.item_invoice_header) { position, item ->
-                        itemView.apply {
-                            tvItemInvoiceHeaderNumber.text = item.invoiceNumber
-                        }
-                    },
-                    JxViewHolder<InvoiceItemViewData>(R.layout.item_invoice_item) { position, item ->
-                        itemView.apply {
-                            tvItemInvoiceItemProductName.text = item.productName
-                            tvItemInvoiceItemQuantity.text = "x ${item.quantity}"
-                            tvItemInvoiceItemPrice.text = "$ ${item.price.format(2)}"
-                            tvItemInvoiceItemTotal.text = "$ ${item.totalAmount.format(2)}"
-                        }
-                    },
-                    JxViewHolder<InvoiceFooterViewData>(R.layout.item_invoice_footer) { position, item ->
-                        itemView.apply {
-                            tvItemInvoiceFooterTotal.text = "$ ${item.total.format(2)}"
-
-                        }
-                    },
-                    JxViewHolder<InvoiceSpaceViewData>(R.layout.item_invoice_space) { position, item ->
-
-                    })
-            )
-        }
-```
+### Licenses
+JxAdapter is released under the [MIT](http://opensource.org/licenses/MIT) license.
