@@ -1,1 +1,1 @@
-include ':example', ':jxadapter'
+include ':example', ':jxadapter', ':jxadapter-experimental'

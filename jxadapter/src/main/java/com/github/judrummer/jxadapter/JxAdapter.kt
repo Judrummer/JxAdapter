@@ -59,8 +59,8 @@ open class JxAdapter(builder: JxItemTypeBuilder.() -> Unit) : RecyclerView.Adapt
 
 abstract class JxViewHolder<in T : JxItem>(parent: ViewGroup,
                                            layoutResId: Int,
-                                           override val containerView: View = LayoutInflater.from(parent.context).inflate(layoutResId, parent, false))
-    : RecyclerView.ViewHolder(containerView), LayoutContainer {
+                                           view: View = LayoutInflater.from(parent.context).inflate(layoutResId, parent, false))
+    : RecyclerView.ViewHolder(view) {
     abstract fun bind(item: T)
 }
 

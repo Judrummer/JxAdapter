@@ -38,7 +38,8 @@ dependencies {
             'com.google.code.gson:gson:2.4'
     )
 
-    compile project(':jxadapter')
+//    compile project(':jxadapter')
+    compile project(':jxadapter-experimental')
 
     testCompile "junit:junit:4.12"
 }
