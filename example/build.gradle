@@ -3,8 +3,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
     defaultConfig {
         applicationId "com.github.judrummer.example"
         minSdkVersion minSdk
@@ -38,7 +38,6 @@ dependencies {
             'com.google.code.gson:gson:2.4'
     )
 
-//    compile project(':jxadapter')
     compile project(':jxadapter-experimental')
 
     testCompile "junit:junit:4.12"
