@@ -46,7 +46,7 @@ data class InvoiceSpaceViewData(val none: String = "") : JxItem
 
 ```
 
-### Implement ViewHolder (JxViewHolder for normal, JxViewHolder for android experimental extension)
+### Implement ViewHolder (JxViewHolder for normal, JxViewHolderExp for android experimental extension)
 
 ``` Kotlin
 typealias ItemClick = (item: InvoiceItemViewData) -> Unit
