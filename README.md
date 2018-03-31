@@ -17,6 +17,7 @@ repositories {
 
 dependencies {
     compile 'com.github.judrummer.jxadapter:jxadapter:1.0.0'
+    compile 'com.github.judrummer.jxadapter:jxadapter-experimental:1.0.0'
 }
 
 androidExtensions {
@@ -45,12 +46,14 @@ data class InvoiceSpaceViewData(val none: String = "") : JxItem
 
 ```
 
-### Implement ViewHolder (use android extension experimental)
+### Implement ViewHolder (JxViewHolder for normal, JxViewHolder for android experimental extension)
 
 ``` Kotlin
 typealias ItemClick = (item: InvoiceItemViewData) -> Unit
 
 class InvoiceHeaderViewHolder(parent: ViewGroup) : JxViewHolder<InvoiceHeaderViewData>(parent, R.layout.item_invoice_header) {
+
+    val tvItemInvoiceHeaderNumber:TextView = itemView.findViewById(R.id.tvItemInvoiceHeaderNumber)
 
     override fun bind(item: InvoiceHeaderViewData) {
         tvItemInvoiceHeaderNumber.text = item.invoiceNumber
@@ -58,7 +61,7 @@ class InvoiceHeaderViewHolder(parent: ViewGroup) : JxViewHolder<InvoiceHeaderVie
 
 }
 
-class InvoiceItemViewHolder(parent: ViewGroup, initializer: (InvoiceItemViewHolder.() -> Unit)? = null) : JxViewHolder<InvoiceItemViewData>(parent, R.layout.item_invoice_item) {
+class InvoiceItemViewHolder(parent: ViewGroup, initializer: (InvoiceItemViewHolder.() -> Unit)? = null) : JxViewHolderExp<InvoiceItemViewData>(parent, R.layout.item_invoice_item) {
 
     init {
         initializer?.invoke(this)
@@ -82,13 +85,13 @@ class InvoiceItemViewHolder(parent: ViewGroup, initializer: (InvoiceItemViewHold
 
 }
 
-class InvoiceFooterViewHolder(parent: ViewGroup) : JxViewHolder<InvoiceFooterViewData>(parent, R.layout.item_invoice_footer) {
+class InvoiceFooterViewHolder(parent: ViewGroup) : JxViewHolderExp<InvoiceFooterViewData>(parent, R.layout.item_invoice_footer) {
     override fun bind(item: InvoiceFooterViewData) {
         tvItemInvoiceFooterTotal.text = "$ ${item.total.format(2)}"
     }
 }
 
-class InvoiceSpaceViewHolder(parent: ViewGroup) : JxViewHolder<InvoiceSpaceViewData>(parent, R.layout.item_invoice_space) {
+class InvoiceSpaceViewHolder(parent: ViewGroup) : JxViewHolderExp<InvoiceSpaceViewData>(parent, R.layout.item_invoice_space) {
     override fun bind(item: InvoiceSpaceViewData) {}
 }
 ```
