@@ -1,1 +1,1 @@
-include ':example', ':jxadapter', ':jxadapter-rxjava'
+include ':example', ':jxadapter', ':jxadapter-layoutcontainer'

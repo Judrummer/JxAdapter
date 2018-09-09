@@ -3,8 +3,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
     defaultConfig {
         applicationId "com.github.judrummer.example"
         minSdkVersion minSdk
@@ -21,10 +21,14 @@ android {
     }
 }
 
-dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+androidExtensions {
+    experimental = true
+}
 
-    compile("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion",
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion",
             "com.github.taskworld.kxandroid:kxandroid-formatter:$kxandroidVersion",
             "com.android.support:appcompat-v7:$supportVersion",
             "com.android.support:design:$supportVersion",
@@ -34,10 +38,9 @@ dependencies {
             'com.google.code.gson:gson:2.4'
     )
 
-    compile project(':jxadapter')
-    compile project(':jxadapter-rxjava')
+    implementation project(':jxadapter-layoutcontainer')
 
-    testCompile "junit:junit:4.12"
+    testImplementation "junit:junit:4.12"
 }
 
 
