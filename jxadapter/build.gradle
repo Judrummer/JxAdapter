@@ -1,9 +1,0 @@
-apply plugin: 'kotlin-android-extensions'
-
-dependencies {
-
-}
-
-androidExtensions {
-    experimental = true
-}

@@ -37,7 +37,7 @@ class SpaceViewHolder(parent: ViewGroup) : JxViewHolder<SpaceViewData>(parent, R
 }
 
 @RunWith(RobolectricTestRunner::class)
-@Config(constants = BuildConfig::class, sdk = intArrayOf(21))
+@Config(constants = BuildConfig::class, sdk = [21])
 class JxAdapterTest {
 
     lateinit var context: Context

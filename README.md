@@ -1,6 +1,6 @@
 
 [![](https://jitpack.io/v/judrummer/JxAdapter.svg)](https://jitpack.io/#judrummer/JxAdapter)
-[ ![Kotlin](https://img.shields.io/badge/Kotlin-1.1.4-blue.svg)](http://kotlinlang.org)
+[ ![Kotlin](https://img.shields.io/badge/Kotlin-1.2.61-blue.svg)](http://kotlinlang.org)
 [![Build Status](https://travis-ci.org/Judrummer/JxAdapter.svg?branch=master)](https://travis-ci.org/judrummer/JxAdapter)
 
 # JxAdapter
@@ -17,7 +17,7 @@ repositories {
 
 dependencies {
     compile 'com.github.judrummer.jxadapter:jxadapter:1.0.0'
-    compile 'com.github.judrummer.jxadapter:jxadapter-experimental:1.0.0'
+    compile 'com.github.judrummer.jxadapter:jxadapter-layoutcontainer:1.0.0'
 }
 
 androidExtensions {
@@ -46,73 +46,69 @@ data class InvoiceSpaceViewData(val none: String = "") : JxItem
 
 ```
 
-### Implement ViewHolder (JxViewHolder for normal, JxViewHolderExp for android experimental extension)
+### Implement ViewHolder (JxViewHolder for normal, JxViewHolderLayoutContainer for android experimental extension)
 
 ``` Kotlin
 typealias ItemClick = (item: InvoiceItemViewData) -> Unit
 
-class InvoiceHeaderViewHolder(parent: ViewGroup) : JxViewHolder<InvoiceHeaderViewData>(parent, R.layout.item_invoice_header) {
+class InvoiceHeaderViewHolder(parent: ViewGroup)
+    : JxViewHolder<InvoiceHeaderViewData>(parent, R.layout.item_invoice_header) {
 
-    val tvItemInvoiceHeaderNumber:TextView = itemView.findViewById(R.id.tvItemInvoiceHeaderNumber)
+    val header = itemView.tvItemInvoiceHeaderNumber
 
     override fun bind(item: InvoiceHeaderViewData) {
-        tvItemInvoiceHeaderNumber.text = item.invoiceNumber
+        header.text = item.invoiceNumber
     }
 
 }
 
-class InvoiceItemViewHolder(parent: ViewGroup, initializer: (InvoiceItemViewHolder.() -> Unit)? = null) : JxViewHolderExp<InvoiceItemViewData>(parent, R.layout.item_invoice_item) {
-
-    init {
-        initializer?.invoke(this)
-    }
-
-    var onNameClick: (ItemClick)? = null
-    var onTotalClick: (ItemClick)? = null
+class InvoiceItemViewHolder(parent: ViewGroup,
+                            val onNameClick: ItemClick,
+                            val onTotalClick: ItemClick)
+    : JxViewHolderLayoutContainer<InvoiceItemViewData>(parent, R.layout.item_invoice_item) {
 
     override fun bind(item: InvoiceItemViewData) {
         tvItemInvoiceItemProductName.text = item.productName
         tvItemInvoiceItemProductName.setOnClickListener {
-            onNameClick?.invoke(item)
+            onNameClick(item)
         }
         tvItemInvoiceItemQuantity.text = "x ${item.quantity}"
         tvItemInvoiceItemPrice.text = "$ ${item.price.format(2)}"
         tvItemInvoiceItemTotal.text = "$ ${item.totalAmount.format(2)}"
         tvItemInvoiceItemTotal.setOnClickListener {
-            onTotalClick?.invoke(item)
+            onTotalClick(item)
         }
     }
 
 }
 
-class InvoiceFooterViewHolder(parent: ViewGroup) : JxViewHolderExp<InvoiceFooterViewData>(parent, R.layout.item_invoice_footer) {
+class InvoiceFooterViewHolder(parent: ViewGroup)
+    : JxViewHolderLayoutContainer<InvoiceFooterViewData>(parent, R.layout.item_invoice_footer) {
     override fun bind(item: InvoiceFooterViewData) {
         tvItemInvoiceFooterTotal.text = "$ ${item.total.format(2)}"
     }
 }
 
-class InvoiceSpaceViewHolder(parent: ViewGroup) : JxViewHolderExp<InvoiceSpaceViewData>(parent, R.layout.item_invoice_space) {
+class InvoiceSpaceViewHolder(parent: ViewGroup)
+    : JxViewHolderLayoutContainer<InvoiceSpaceViewData>(parent, R.layout.item_invoice_space) {
     override fun bind(item: InvoiceSpaceViewData) {}
 }
+
 ```
 
 ### Implement Adapter
 
 ``` Kotlin
-   val jxAdapter = JxAdapter {
-          viewHolder(::InvoiceHeaderViewHolder)
-          viewHolder {
-              InvoiceItemViewHolder(it) {
-                  onNameClick = this@SimpleActivity::onNameClick
-                  onTotalClick = { item ->
-                      toast("onTotalClick $item")
-                  }
-              }
-          }
-          viewHolder(::InvoiceFooterViewHolder)
-          viewHolder(::InvoiceSpaceViewHolder)
-      }
-
+   private val jxAdapter = JxAdapter {
+        viewHolder(::InvoiceHeaderViewHolder)
+        viewHolder {
+            InvoiceItemViewHolder(it,
+                    this@SimpleActivity::onNameClick,
+                    this@SimpleActivity::onTotalClick)
+        }
+        viewHolder(::InvoiceFooterViewHolder)
+        viewHolder(::InvoiceSpaceViewHolder)
+    }
 ```
 
 ### Assign Adapter to RecyclerView

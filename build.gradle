@@ -6,9 +6,9 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.0'
+        classpath 'com.android.tools.build:gradle:3.1.4'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.31"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.61"
         classpath 'com.netflix.nebula:gradle-extra-configurations-plugin:3.0.3'
     }
 }
@@ -21,7 +21,7 @@ allprojects {
         groupName = "com.github.judrummer.jxadapter"
 
         supportVersion = '27.1.0'
-        kotlinVersion = '1.2.31'
+        kotlinVersion = '1.2.61'
         supportTestVersion = '0.4.1'
         kxandroidVersion = '0.2.0'
 
@@ -59,14 +59,17 @@ configure(subprojects - project(':example')) {
                 proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             }
         }
+        testOptions {
+            unitTests.includeAndroidResources true
+        }
     }
     dependencies {
-        compile("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion",
+        implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion",
                 "com.android.support:support-v4:$supportVersion",
                 "com.android.support:appcompat-v7:$supportVersion",
                 "com.android.support:recyclerview-v7:$supportVersion")
-        testCompile("junit:junit:4.12",
-                "org.robolectric:robolectric:3.1.4",
+        testImplementation("junit:junit:4.12",
+                "org.robolectric:robolectric:3.8",
                 "com.android.support:appcompat-v7:$supportVersion",
                 "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion",
                 "org.hamcrest:hamcrest-all:1.3"
