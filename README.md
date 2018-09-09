@@ -18,11 +18,11 @@ repositories {
 dependencies {
     implementation 'com.github.judrummer.jxadapter:jxadapter:1.0.0'
     
-    //If want to use kotlin android extention LayoutContainer experimental
+    //If you want to use kotlin android extention LayoutContainer experimental
     implementation 'com.github.judrummer.jxadapter:jxadapter-layoutcontainer:1.0.0'
 }
 
-//If want to use kotlin android extention LayoutContainer experimental
+//If you want to use kotlin android extention LayoutContainer experimental
 androidExtensions {
     experimental = true
 }
