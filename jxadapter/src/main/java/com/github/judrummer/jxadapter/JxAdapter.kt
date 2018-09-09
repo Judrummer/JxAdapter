@@ -52,10 +52,12 @@ open class JxAdapter(builder: JxItemTypeBuilder.() -> Unit) : RecyclerView.Adapt
     override fun getItemCount(): Int = items.size
 }
 
-abstract class JxViewHolder<T>(parent: ViewGroup,
-                               layoutResId: Int,
-                               view: View = LayoutInflater.from(parent.context).inflate(layoutResId, parent, false))
-    : RecyclerView.ViewHolder(view) {
+abstract class JxViewHolder<T> : RecyclerView.ViewHolder {
+
+    constructor(parent: ViewGroup, layoutResId: Int) : super(LayoutInflater.from(parent.context).inflate(layoutResId, parent, false))
+
+    constructor(view: View) : super(view)
+
     abstract fun bind(item: T)
 }
 

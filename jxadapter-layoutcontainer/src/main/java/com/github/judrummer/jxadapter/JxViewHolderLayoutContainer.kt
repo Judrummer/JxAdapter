@@ -9,4 +9,4 @@ abstract class JxViewHolderLayoutContainer<T>(
         parent: ViewGroup,
         layoutResId: Int,
         override val containerView: View = LayoutInflater.from(parent.context).inflate(layoutResId, parent, false))
-    : JxViewHolder<T>(parent, layoutResId, containerView), LayoutContainer
+    : JxViewHolder<T>(containerView), LayoutContainer
