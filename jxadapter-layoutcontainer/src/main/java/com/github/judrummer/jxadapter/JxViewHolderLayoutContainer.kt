@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.extensions.LayoutContainer
 
-abstract class JxViewHolderLayoutContainer<in T : JxItem>(
+abstract class JxViewHolderLayoutContainer<T>(
         parent: ViewGroup,
         layoutResId: Int,
         override val containerView: View = LayoutInflater.from(parent.context).inflate(layoutResId, parent, false))

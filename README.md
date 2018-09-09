@@ -16,10 +16,13 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.judrummer.jxadapter:jxadapter:1.0.0'
-    compile 'com.github.judrummer.jxadapter:jxadapter-layoutcontainer:1.0.0'
+    implementation 'com.github.judrummer.jxadapter:jxadapter:1.0.0'
+    
+    //If want to use kotlin android extention LayoutContainer experimental
+    implementation 'com.github.judrummer.jxadapter:jxadapter-layoutcontainer:1.0.0'
 }
 
+//If want to use kotlin android extention LayoutContainer experimental
 androidExtensions {
     experimental = true
 }
@@ -29,20 +32,20 @@ androidExtensions {
 
 ![alt tag](https://zippy.gfycat.com/ColorlessElderlyIndianskimmer.gif)
 
-### Implement ViewData for each layout by using JxItem interface
+### Implement ViewData for each layout
 
 ``` Kotlin
 //item_invoice_header.xml
-data class InvoiceHeaderViewData(val invoiceNumber: String) : JxItem
+data class InvoiceHeaderViewData(val invoiceNumber: String)
 
 //item_invoice_item.xml
-data class InvoiceItemViewData(val productName: String, val price: Double, val quantity: Int, val totalAmount: Double) : JxItem
+data class InvoiceItemViewData(val productName: String, val price: Double, val quantity: Int, val totalAmount: Double)
 
 //item_invoice_footer.xml
-data class InvoiceFooterViewData(val total: Double) : JxItem
+data class InvoiceFooterViewData(val total: Double)
 
 //item_invoice_space.xml
-data class InvoiceSpaceViewData(val none: String = "") : JxItem
+data class InvoiceSpaceViewData(val none: String = "")
 
 ```
 
@@ -122,19 +125,19 @@ class InvoiceSpaceViewHolder(parent: ViewGroup)
 
 ### Assign Items Value (Auto Trigger notifyDatasetChaged)
 ``` Kotlin
-jxAdapter.items = listOf<JxItem>(....) // Your Data
+jxAdapter.items = listOf<Any>(....) // Your Data
 ```
-### Use DiffUtil by set JxDiffUtil (Optional)
+### Use DiffUtil by set JxDiffUtil
 ``` Kotlin
 jxAdapter.jxDiffUtil = JxDiffUtil() 
 ```
 JxDiffUtil is open class. you can extend to override function areItemsTheSame and areContentsTheSame.
 ``` Kotlin
 open class JxDiffUtil {
-    open val areItemsTheSame: (JxItem, JxItem) -> Boolean = { oldItem, newItem ->
+    open val areItemsTheSame: (Any, Any) -> Boolean = { oldItem, newItem ->
         oldItem == newItem
     }
-    open val areContentsTheSame: (JxItem, JxItem) -> Boolean = { oldItem, newItem ->
+    open val areContentsTheSame: (Any, Any) -> Boolean = { oldItem, newItem ->
         oldItem == newItem
     }
 }

@@ -10,13 +10,13 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
-data class HeaderViewData(val id: String) : JxItem
+data class HeaderViewData(val id: String) : TestType
 
-data class ItemViewData(val name: String) : JxItem
+data class ItemViewData(val name: String) : TestType
 
-data class SpaceViewData(val none: String = "") : JxItem
+data class SpaceViewData(val none: String = "") : TestType
 
-data class ErrorData(val error: String = "") : JxItem
+data class ErrorData(val error: String = "") : TestType
 
 class HeaderViewHolder(parent: ViewGroup) : JxViewHolder<HeaderViewData>(parent, R.layout.item_test_jx_header) {
     override fun bind(item: HeaderViewData) {

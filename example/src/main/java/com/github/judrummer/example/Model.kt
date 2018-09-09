@@ -1,18 +1,16 @@
 package com.github.judrummer.example
 
-import com.github.judrummer.jxadapter.JxItem
-import java.text.DecimalFormat
 import java.util.*
 
 
 //View Data
-data class InvoiceHeaderViewData(val invoiceNumber: String) : JxItem
+data class InvoiceHeaderViewData(val invoiceNumber: String)
 
-data class InvoiceItemViewData(val productName: String, val price: Double, val quantity: Int, val totalAmount: Double) : JxItem
+data class InvoiceItemViewData(val productName: String, val price: Double, val quantity: Int, val totalAmount: Double)
 
-data class InvoiceFooterViewData(val total: Double) : JxItem
+data class InvoiceFooterViewData(val total: Double)
 
-data class InvoiceSpaceViewData(val none: String = "") : JxItem
+data class InvoiceSpaceViewData(val none: String = "")
 
 //Data Model
 data class InvoiceItem(val productName: String, val price: Double, val quantity: Int)
@@ -21,8 +19,8 @@ data class Invoice(val invoiceNumber: String, val items: List<InvoiceItem>)
 
 
 //Converter
-fun List<Invoice>.toViewDataList(): List<JxItem> {
-    val viewDataList = mutableListOf<JxItem>()
+fun List<Invoice>.toViewDataList(): List<Any> {
+    val viewDataList = mutableListOf<Any>()
     forEach { (invoiceNumber, items) ->
         viewDataList.add(InvoiceHeaderViewData(invoiceNumber))
         var invoiceTotal = 0.0
