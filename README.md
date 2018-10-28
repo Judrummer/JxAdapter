@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/Judrummer/JxAdapter.svg?branch=master)](https://travis-ci.org/judrummer/JxAdapter)
 
 # JxAdapter
-The easiest RecyclerAdapter for Android Kotlin
+Simple Multitype ViewHolder RecyclerAdapter for Android Kotlin
 
 ## Installation
 
